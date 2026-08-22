@@ -1,0 +1,430 @@
+/* ---------------------------------------------------
+   Design tokens
+   Palette: cool paper white + near-black ink, with a
+   single restrained cobalt accent used only on
+   interactive moments and the registration marks.
+--------------------------------------------------- */
+:root {
+  --bg: #fafafa;
+  --surface: #ffffff;
+  --ink: #15171c;
+  --muted: #70737c;
+  --line: #e7e7ea;
+  --accent: #2547f4;
+  --accent-soft: #eef1ff;
+  --error: #d0402a;
+  --placeholder: #a7a9b0;
+
+  --font-display: "Fraunces", serif;
+  --font-body: "Inter", sans-serif;
+
+  --shadow-card: 0 1px 2px rgba(21, 23, 28, 0.04), 0 12px 32px -12px rgba(21, 23, 28, 0.10);
+
+  color-scheme: light;
+}
+
+/* Dark mode — same structure, inverted surfaces, a slightly
+   brighter cobalt so the accent still pops on a dark ground. */
+[data-theme="dark"] {
+  --bg: #121317;
+  --surface: #1a1c21;
+  --ink: #f2f2f4;
+  --muted: #9a9ca4;
+  --line: #2c2e35;
+  --accent: #6b83ff;
+  --accent-soft: #1f2540;
+  --error: #ff6f57;
+  --placeholder: #5c5e66;
+
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.2), 0 12px 32px -12px rgba(0, 0, 0, 0.5);
+
+  color-scheme: dark;
+}
+
+body {
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+
+/* ---------------------------------------------------
+   Header
+--------------------------------------------------- */
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 36px 24px 0;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: -0.01em;
+}
+
+/* A quiet mark built from four dots — a nod to a QR module
+   grid without literally drawing a QR code as a logo. */
+.brand-mark {
+  width: 14px;
+  height: 14px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 2px;
+}
+
+.brand-mark::before,
+.brand-mark::after {
+  content: "";
+  background: var(--accent);
+  border-radius: 1px;
+}
+
+.brand-mark {
+  position: relative;
+}
+
+.brand-mark::before {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.brand-mark::after {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.theme-toggle:hover {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.theme-toggle .icon {
+  width: 16px;
+  height: 16px;
+}
+
+/* Only one icon shows at a time, matching the *current* theme
+   (sun visible in light mode = "tap to go dark", and so on) */
+.theme-toggle .icon-moon { display: none; }
+[data-theme="dark"] .theme-toggle .icon-sun { display: none; }
+[data-theme="dark"] .theme-toggle .icon-moon { display: block; }
+
+.repo-link {
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--muted);
+  text-decoration: none;
+  padding: 6px 4px;
+  transition: color 0.15s ease;
+}
+
+.repo-link:hover {
+  color: var(--ink);
+}
+
+/* ---------------------------------------------------
+   Intro
+--------------------------------------------------- */
+main {
+  max-width: 620px;
+  margin: 0 auto;
+  padding: 88px 24px 48px;
+}
+
+.eyebrow {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--accent);
+  margin: 0 0 18px;
+}
+
+.intro h1 {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  font-weight: 560;
+  font-size: clamp(2.1rem, 5vw, 2.9rem);
+  line-height: 1.18;
+  letter-spacing: -0.01em;
+  margin: 0 0 20px;
+  max-width: 15ch;
+}
+
+.intro .sub {
+  color: var(--muted);
+  font-size: 1.05rem;
+  max-width: 42ch;
+  margin: 0;
+}
+
+/* ---------------------------------------------------
+   Scanner card
+--------------------------------------------------- */
+.scanner-card {
+  margin-top: 56px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: var(--shadow-card);
+}
+
+.input-row {
+  display: flex;
+  gap: 10px;
+}
+
+#url-input {
+  flex: 1;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 0.96rem;
+  padding: 14px 16px;
+  outline: none;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+#url-input::placeholder {
+  color: var(--placeholder);
+}
+
+#url-input:focus {
+  border-color: var(--accent);
+  background: var(--surface);
+}
+
+#generate-btn {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.95rem;
+  background: var(--ink);
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  padding: 0 24px;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.1s ease;
+}
+
+#generate-btn:hover { background: var(--accent); }
+#generate-btn:active { transform: scale(0.97); }
+
+#generate-btn:focus-visible,
+#url-input:focus-visible,
+.ghost-btn:focus-visible,
+.repo-link:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.error-msg {
+  color: var(--error);
+  font-size: 0.85rem;
+  min-height: 1.2em;
+  margin: 10px 2px 0;
+}
+
+/* ---------------------------------------------------
+   Viewfinder — the signature element.
+   Thin cobalt registration/crop marks, borrowed from
+   print production, frame the code like it's about
+   to be aligned on press. Quiet, precise, on-brief.
+--------------------------------------------------- */
+.viewfinder {
+  position: relative;
+  width: 208px;
+  height: 208px;
+  margin: 44px auto 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bracket {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  transition: opacity 0.4s ease;
+  opacity: 0.35;
+}
+
+.bracket::before,
+.bracket::after {
+  content: "";
+  position: absolute;
+  background: var(--ink);
+}
+
+/* each bracket is a thin crosshair, not a solid corner box */
+.bracket::before { width: 100%; height: 1px; top: 50%; left: 0; }
+.bracket::after { width: 1px; height: 100%; left: 50%; top: 0; }
+
+.bracket-tl { top: -9px; left: -9px; }
+.bracket-tr { top: -9px; right: -9px; }
+.bracket-bl { bottom: -9px; left: -9px; }
+.bracket-br { bottom: -9px; right: -9px; }
+
+.viewfinder.is-focused .bracket {
+  opacity: 1;
+}
+
+.viewfinder.is-focused .bracket::before,
+.viewfinder.is-focused .bracket::after {
+  background: var(--accent);
+}
+
+.qr-placeholder {
+  color: var(--placeholder);
+  text-align: center;
+  font-size: 0.85rem;
+  max-width: 16ch;
+}
+
+.qrcode {
+  display: none;
+  padding: 12px;
+  background: #ffffff;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+}
+
+.viewfinder.is-focused .qr-placeholder { display: none; }
+.viewfinder.is-focused .qrcode { display: block; animation: resolve 0.35s ease; }
+
+@keyframes resolve {
+  from { opacity: 0; transform: scale(0.94); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .viewfinder.is-focused .qrcode { animation: none; }
+}
+
+/* ---------------------------------------------------
+   Actions
+--------------------------------------------------- */
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 28px;
+}
+
+.ghost-btn {
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  font-weight: 500;
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.ghost-btn:hover {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+/* ---------------------------------------------------
+   How it works
+--------------------------------------------------- */
+.how-it-works {
+  margin-top: 72px;
+}
+
+.how-it-works ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.how-it-works li {
+  display: flex;
+  gap: 16px;
+  align-items: baseline;
+  color: var(--muted);
+  font-size: 0.98rem;
+}
+
+.step-index {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.78rem;
+  color: var(--accent);
+  flex-shrink: 0;
+  min-width: 20px;
+}
+
+/* ---------------------------------------------------
+   Footer
+--------------------------------------------------- */
+.site-footer {
+  text-align: center;
+  padding: 48px 24px 64px;
+  color: var(--placeholder);
+  font-size: 0.82rem;
+}
+
+@media (max-width: 480px) {
+  .input-row { flex-direction: column; }
+  #generate-btn { padding: 14px; }
+  .scanner-card { padding: 28px 24px; }
+}

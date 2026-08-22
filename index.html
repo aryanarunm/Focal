@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Focal — Turn any link into a QR code</title>
+  <meta name="description" content="Paste a link, get a scannable QR code instantly. No sign-up, no server, runs entirely in your browser." />
+
+  <!-- Fonts: Fraunces for the headline (a quiet, editorial serif), Inter for everything else -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,450;9..144,560&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Applied before first paint so the page never flashes the wrong theme -->
+  <script>
+    (function () {
+      const saved = localStorage.getItem("focal-theme");
+      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      const theme = saved || (prefersDark ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <span class="brand-name">Focal</span>
+    </div>
+    <div class="header-actions">
+      <button type="button" id="theme-toggle" class="theme-toggle" aria-label="Switch to dark mode" aria-pressed="false">
+        <svg class="icon icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+          <circle cx="12" cy="12" r="4.2"></circle>
+          <path d="M12 2.5v2.4M12 19.1v2.4M4.6 4.6l1.7 1.7M17.7 17.7l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.6 19.4l1.7-1.7M17.7 6.3l1.7-1.7" stroke-linecap="round"></path>
+        </svg>
+        <svg class="icon icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+          <path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a6.8 6.8 0 0 0 10.5 10.5Z" stroke-linejoin="round"></path>
+        </svg>
+      </button>
+      <a class="repo-link" href="https://github.com/" target="_blank" rel="noopener">
+        Source
+      </a>
+    </div>
+  </header>
+
+  <main>
+    <section class="intro">
+      <p class="eyebrow">Link encoding, done simply</p>
+      <h1>Turn any link into a code worth scanning.</h1>
+      <p class="sub">Paste a URL. Focal renders it as a QR code, right in your browser — nothing uploaded, nothing stored.</p>
+    </section>
+
+    <section class="scanner-card">
+      <form id="qr-form" class="input-row">
+        <label for="url-input" class="sr-only">Link to encode</label>
+        <input
+          id="url-input"
+          type="text"
+          inputmode="url"
+          placeholder="https://example.com/your-link"
+          autocomplete="off"
+          spellcheck="false"
+          required
+        />
+        <button type="submit" id="generate-btn">Generate</button>
+      </form>
+      <p id="error-msg" class="error-msg" role="alert" aria-live="polite"></p>
+
+      <div class="viewfinder" id="viewfinder">
+        <span class="bracket bracket-tl"></span>
+        <span class="bracket bracket-tr"></span>
+        <span class="bracket bracket-bl"></span>
+        <span class="bracket bracket-br"></span>
+
+        <div id="qr-placeholder" class="qr-placeholder">
+          <span class="mono-label">Your code appears here</span>
+        </div>
+        <div id="qrcode" class="qrcode"></div>
+      </div>
+
+      <div class="actions" id="actions" hidden>
+        <button type="button" id="download-btn" class="ghost-btn">Download PNG</button>
+        <button type="button" id="copy-btn" class="ghost-btn">Copy link</button>
+      </div>
+    </section>
+
+    <section class="how-it-works">
+      <p class="eyebrow">How it works</p>
+      <ol>
+        <li><span class="step-index">01</span><span>Paste in any link.</span></li>
+        <li><span class="step-index">02</span><span>It's encoded into a QR code entirely on your device — nothing leaves the browser.</span></li>
+        <li><span class="step-index">03</span><span>Scan it with a phone camera, or download it as a PNG to print or share.</span></li>
+      </ol>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>Built with HTML, CSS &amp; JavaScript — no framework, no backend.</p>
+  </footer>
+
+  <!-- QR encoding library (davidshimjs/qrcodejs), loaded from cdnjs -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
