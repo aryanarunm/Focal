@@ -2,7 +2,7 @@
 
 A small web app that turns any link into a scannable QR code, entirely in the browser. No backend, no build step, no dependencies to install.
 
-**[Live demo →](#)** https://aryanarunm7807-arch.github.io/Focal/
+**[Live demo →](#)** https://aryanarunm.github.io/Focal/
 
 ## Why I built this
 
